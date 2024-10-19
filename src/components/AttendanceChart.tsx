@@ -1,6 +1,7 @@
 'use client';
+import Constants from '@/lib/constants';
 import Image from 'next/image';
-import { BarChart, Bar, Rectangle, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 
 const data = [
     {
@@ -47,8 +48,18 @@ const AttendanceChart = () => {
                         verticalAlign="top"
                         wrapperStyle={{ paddingTop: '20px', paddingBottom: '40px' }}
                     />
-                    <Bar dataKey="present" fill="#FAE27C" legendType="circle" radius={[10, 10, 0, 0]} />
-                    <Bar dataKey="absent" fill="#C3EBFA" legendType="circle" radius={[10, 10, 0, 0]} />
+                    <Bar
+                        dataKey="present"
+                        fill={Constants.COLOR.schoolYellow}
+                        legendType="circle"
+                        radius={[10, 10, 0, 0]}
+                    />
+                    <Bar
+                        dataKey="absent"
+                        fill={Constants.COLOR.schoolSky}
+                        legendType="circle"
+                        radius={[10, 10, 0, 0]}
+                    />
                 </BarChart>
             </ResponsiveContainer>
         </div>

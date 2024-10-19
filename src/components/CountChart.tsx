@@ -1,6 +1,7 @@
 'use client';
+import Constants from '@/lib/constants';
 import Image from 'next/image';
-import { RadialBarChart, RadialBar, Legend, ResponsiveContainer } from 'recharts';
+import { RadialBarChart, RadialBar, ResponsiveContainer } from 'recharts';
 
 const data = [
     {
@@ -11,12 +12,12 @@ const data = [
     {
         name: 'Girls',
         count: 53,
-        fill: '#FAE27C',
+        fill: Constants.COLOR.schoolYellow,
     },
     {
         name: 'Boys',
         count: 53,
-        fill: '#C3EBFA',
+        fill: Constants.COLOR.schoolSky,
     },
 ];
 
