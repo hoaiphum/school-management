@@ -31,10 +31,14 @@ const columns = [
         accessor: 'address',
         className: 'hidden lg:table-cell',
     },
-    {
-        header: 'Action',
-        accessor: 'action',
-    },
+    ...(role === 'admin'
+        ? [
+              {
+                  header: 'Action',
+                  accessor: 'action',
+              },
+          ]
+        : []),
 ];
 
 const renderRow = (item: ParentList) => (

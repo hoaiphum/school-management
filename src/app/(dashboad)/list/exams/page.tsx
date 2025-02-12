@@ -158,7 +158,7 @@ const ExamListPage = async ({ searchParams }: { searchParams: { [key: string]: s
                         <button className="w-8 h-8 flex items-center justify-center rounded-full bg-yellow-300">
                             <Image src="/sort.png" alt="" width={14} height={14} />
                         </button>
-                        {role === 'admin' && <FormModal table="exam" type="create" />}
+                        {(role === 'admin' || role === 'teacher') && <FormModal table="exam" type="create" />}
                     </div>
                 </div>
             </div>

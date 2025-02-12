@@ -40,10 +40,14 @@ const columns = [
         accessor: 'address',
         className: 'hidden lg:table-cell',
     },
-    {
-        header: 'Action',
-        accessor: 'action',
-    },
+    ...(role === 'admin'
+        ? [
+              {
+                  header: 'Action',
+                  accessor: 'action',
+              },
+          ]
+        : []),
 ];
 const renderRow = (item: TeacherList) => (
     <tr key={item.id} className="border-b border-gray-200 even:bg-slate-50 text-sm hover:bg-purple-100">
