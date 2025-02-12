@@ -25,8 +25,9 @@ const SubjectForm = ({ type, data }: { type: 'create' | 'update'; data?: any }) 
     const onSubmit = handleSubmit((data) => {});
     return (
         <form className="flex flex-col gap-8" onSubmit={onSubmit}>
-            <h1 className="text-xl font-semibold">Create a new subject</h1>
-            <span className="text-xs text-gray-400 font-medium">Authentication Information</span>
+            <h1 className="text-xl font-semibold">
+                {type === 'create' ? 'Create a new subject' : 'Update the subject'}
+            </h1>
             <div className="flex justify-between flex-wrap gap-4">
                 <InputField
                     label="Subject name"
