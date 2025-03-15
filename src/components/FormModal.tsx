@@ -4,19 +4,18 @@ import Image from 'next/image';
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import dynamic from 'next/dynamic';
 import { useFormState } from 'react-dom';
-import { deleteClass, deleteSubject, deleteTeacher } from '@/lib/actions';
+import { deleteClass, deleteExam, deleteStudent, deleteSubject, deleteTeacher } from '@/lib/actions';
 import { useRouter } from 'next/navigation';
 import { toast } from 'react-toastify';
-import { announcementsData } from '@/lib/data';
 import { FormContainerProps } from './FormContainer';
 
 const deleteActionMap = {
     subject: deleteSubject,
     class: deleteClass,
     teacher: deleteTeacher,
-    student: deleteSubject,
+    student: deleteStudent,
     parent: deleteSubject,
-    lesson: deleteSubject,
+    lesson: deleteExam,
     exam: deleteSubject,
     assignment: deleteSubject,
     result: deleteSubject,
@@ -31,18 +30,15 @@ const TeacherForm = dynamic(() => import('./forms/TeacherForm'), {
 const StudentForm = dynamic(() => import('./forms/StudentForm'), {
     loading: () => <h1>Loading...</h1>,
 });
-
-const forms: { [key: string]: (type: 'create' | 'update', data?: any) => JSX.Element } = {
-    teacher: (type, data) => <TeacherForm type={type} data={data} />,
-    student: (type, data) => <StudentForm type={type} data={data} />,
-
 const SubjectForm = dynamic(() => import('./forms/SubjectForm'), {
     loading: () => <h1>Loading...</h1>,
 });
 const ClassForm = dynamic(() => import('./forms/ClassForm'), {
     loading: () => <h1>Loading...</h1>,
 });
-
+const ExamForm = dynamic(() => import('./forms/ExamForm'), {
+    loading: () => <h1>Loading...</h1>,
+});
 const forms: {
     [key: string]: (
         setOpen: Dispatch<SetStateAction<boolean>>,
@@ -63,6 +59,9 @@ const forms: {
     class: (setOpen, type, data, relatedData) => (
         <ClassForm type={type} data={data} setOpen={setOpen} relatedData={relatedData} />
     ),
+    exam: (setOpen, type, data, relatedData) => (
+        <ExamForm type={type} data={data} setOpen={setOpen} relatedData={relatedData} />
+    ),
 };
 
 const FormModal = ({ table, type, data, id, relatedData }: FormContainerProps & { relatedData?: any }) => {
@@ -78,7 +77,7 @@ const FormModal = ({ table, type, data, id, relatedData }: FormContainerProps & 
 
         useEffect(() => {
             if (state.success) {
-                toast(`Subject has been delete!`);
+                toast(`${table} has been delete!`);
                 setOpen: false;
                 router.refresh();
             }

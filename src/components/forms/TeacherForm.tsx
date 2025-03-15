@@ -4,7 +4,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import InputField from '../InputField';
 import Image from 'next/image';
-import { Dispatch, SetStateAction, useEffect } from 'react';
+import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { teacherSchema, TeacherSchema } from '@/lib/formValidationSchemas';
 import { useFormState } from 'react-dom';
 import { createTeacher, updateTeacher } from '@/lib/actions';
@@ -29,7 +29,7 @@ const TeacherForm = ({
     } = useForm<TeacherSchema>({
         resolver: zodResolver(teacherSchema),
     });
-
+    // const [img, setImg] = useState<any>();
     const [state, formAction] = useFormState(type === 'create' ? createTeacher : updateTeacher, {
         success: false,
         error: false,
@@ -37,6 +37,7 @@ const TeacherForm = ({
 
     const onSubmit = handleSubmit((data) => {
         formAction(data);
+        // formAction({...data, img:img?.secure_url});
     });
 
     const router = useRouter();
@@ -79,7 +80,7 @@ const TeacherForm = ({
                     type="password"
                     defaultValue={data?.password}
                     register={register}
-                    error={errors.password}
+                    error={errors?.password}
                 />
             </div>
             <span className="text-xs text-gray-400 font-medium">Personal Information</span>
@@ -123,10 +124,20 @@ const TeacherForm = ({
                     label="Birthday"
                     name="birthday"
                     type="date"
-                    defaultValue={data?.birthday}
+                    defaultValue={data?.birthday.toISOString().split('T')[0]}
                     register={register}
                     error={errors.birthday}
                 />
+                {data && (
+                    <InputField
+                        label="Id"
+                        name="id"
+                        defaultValue={data?.id}
+                        register={register}
+                        error={errors?.id}
+                        hidden
+                    />
+                )}
                 <div className="flex flex-col gap-2 w-full md:w-1/4">
                     <label className="text-xs text-gray-500">Sex</label>
                     <select
@@ -134,8 +145,8 @@ const TeacherForm = ({
                         {...register('sex')}
                         defaultValue={data?.sex}
                     >
-                        <option value="male">Male</option>
-                        <option value="female">Female</option>
+                        <option value="MALE">Male</option>
+                        <option value="FEMALE">Female</option>
                     </select>
                     {errors.sex?.message && <p className="text-xs text-red-400">{errors.sex?.message.toString()}</p>}
                 </div>
@@ -160,15 +171,16 @@ const TeacherForm = ({
                     )}
                 </div>
 
-                <div className="flex flex-col gap-2 w-full md:w-1/4 justify-center">
+                {/* <div className="flex flex-col gap-2 w-full md:w-1/4 justify-center">
                     <label className="text-xs text-gray-500 flex items-center gap-2 cursor-pointer" htmlFor="img">
                         <Image src="/upload.png" alt="" width={28} height={28} />
                         <span>Upload a photo</span>
                     </label>
                     <input type="file" id="img" {...register('img')} className="hidden" />
                     {errors.img?.message && <p className="text-xs text-red-400">{errors.img?.message.toString()}</p>}
-                </div>
+                </div> */}
             </div>
+            {state.error && <span className="text-red-500">Something went wrong! {state.error}</span>}
             <button className="bg-blue-400 text-white p-2 rounded-md">{type === 'create' ? 'Create' : 'Update'}</button>
         </form>
     );
